@@ -10,7 +10,6 @@ import com.smbc.library.rent_service.service.iservice.RentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,12 +21,12 @@ public class RentController {
     private final RentService rentService;
 
     @GetMapping()
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    public ResponseDto<?> getMyRentBookList(HttpServletRequest request) {
+        return rentService.myRentBookList(request);
     }
 
     @PostMapping()
-    public ResponseDto<?> postMethodName(@RequestBody RentRequestDto requestDetail, HttpServletRequest request) {
+    public ResponseDto<?> rentBook(@RequestBody RentRequestDto requestDetail, HttpServletRequest request) {
         return rentService.rent(requestDetail, request);
     }
 

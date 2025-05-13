@@ -1,5 +1,6 @@
 package com.smbc.library.rent_service.service.impl;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -71,11 +72,13 @@ public class RentServiceImpl implements RentService {
                     "The number of books in stock is less than the number to be borrowed");
         }
 
-        System.out.println(book.getName());
-
         Integer updatedTotal = book.getTotal() - requestDetail.getAmount();
-        UpdateBookDto updateBookRequest = UpdateBookDto.builder().author(book.getAuthor()).name(book.getName())
-                .total(updatedTotal).build();
+        UpdateBookDto updateBookRequest = UpdateBookDto.builder()
+                .author(book.getAuthor())
+                .name(book.getName())
+                .total(updatedTotal)
+                .imageUrl(book.getImageUrl())
+                .build();
 
         HttpEntity<UpdateBookDto> requestHttpEntity = new HttpEntity<>(updateBookRequest, headers);
         ParameterizedTypeReference<ResponseDto<?>> responseTypeUpdateCatalogue = new ParameterizedTypeReference<ResponseDto<?>>() {
@@ -105,4 +108,15 @@ public class RentServiceImpl implements RentService {
         return ResponseUtil.success(HttpStatus.OK.value(), "Successfully rent a book", saved);
     }
 
+    @Override
+    public ResponseDto<?> myRentBookList(HttpServletRequest request) {
+        Long memberId = Long.valueOf(request.getAttribute("memberId").toString());
+
+        var list = rentBookRepository.findAllByMemberId(memberId);
+        if (list == null) {
+            return ResponseUtil.failed(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Failed to fetch rent book list.");
+        }
+
+        return ResponseUtil.success(HttpStatus.OK.value(), "Successfully fetch rent book list data", list);
+    }
 }

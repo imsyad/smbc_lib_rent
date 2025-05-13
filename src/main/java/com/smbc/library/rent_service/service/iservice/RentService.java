@@ -7,5 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface RentService {
 
+    ResponseDto<?> myRentBookList(HttpServletRequest request);
+
     ResponseDto<?> rent(RentRequestDto requestDetail, HttpServletRequest request);
 }

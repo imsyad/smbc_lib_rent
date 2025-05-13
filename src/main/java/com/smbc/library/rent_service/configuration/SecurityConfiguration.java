@@ -2,6 +2,7 @@ package com.smbc.library.rent_service.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,17 +26,16 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf(csrf -> csrf.disable())
+		httpSecurity
+				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(
-						auth -> auth.anyRequest()
+						auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest()
 								.authenticated())
 				.exceptionHandling(e -> e.authenticationEntryPoint(unauthorizedEntryPoint)
 						.accessDeniedHandler(forbiddenEntryPoint))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
 		return httpSecurity.build();
 	}
-
 }

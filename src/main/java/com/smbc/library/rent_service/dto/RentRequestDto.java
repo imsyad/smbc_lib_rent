@@ -2,7 +2,7 @@ package com.smbc.library.rent_service.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class RentRequestDto implements Serializable {
     private static final long serialVersionUID = -6462424624L;
 
     private Long bookId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer amount;
 }

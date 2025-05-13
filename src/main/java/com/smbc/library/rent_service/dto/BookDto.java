@@ -20,4 +20,5 @@ public class BookDto implements Serializable {
     private String name;
     private String author;
     private Integer total;
+    private String imageUrl;
 }

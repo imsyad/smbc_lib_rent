@@ -2,7 +2,7 @@ package com.smbc.library.rent_service.model;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,10 +36,10 @@ public class RentBooks implements Serializable {
     private Long bookId;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Column(name = "amount", nullable = false)
     private Integer amount;
